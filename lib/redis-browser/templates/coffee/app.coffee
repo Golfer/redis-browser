@@ -88,6 +88,8 @@ app.directive 'prettyprint', ->
           db.add("connection", $scope.config.connection)
           $scope.api = API($scope.config.connection)
 
+          $scope.allkeysOpen()
+          $scope.allkeysClose()
           $scope.fetchKeys()
           $scope.show($scope.key)
 
@@ -130,8 +132,33 @@ app.directive 'prettyprint', ->
             e.json[k] = v.value
     )
 
+
+
+
+  $scope.allkeysClose = ->
+#    console.log '----Click allkeysClose',
+
+    $scope.api.keys('936c61e0a636d542ce69291c1fab9de3/').then (keys) ->
+      key.children = keys
+#      console.log '*------open', key
+
+  $scope.allkeysOpen = ->
+#    console.log '----Click Open All Keys'
+#    $scope.api.keys().then (keys) ->
+#      keys.map( (key) ->
+#        console.log key.full
+#        if key.has_children
+##        $scope.keyOpen(key)
+#          console.log 'key.open', key
+#      )
+#    console.log $scope.config
+#    $scope.api.get(
+#      key:    $scope.key.full
+#      start:  $scope.list.start
+#      stop:   $scope.list.stop
+#    ).then((e) -> $scope.key.values = e.values)
+
   $scope.keyOpen = (key) ->
-    console.log key.children
     if !key.children
       $scope.api.keys(key.full).then (keys) ->
         key.children = keys
